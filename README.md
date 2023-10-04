@@ -5,7 +5,7 @@ This is a template repository to make a project using Express and Typescript. It
 Get started:
 
 ```console
-gh repo create my-app --template= https://github.com/vaibhavc2/express-ts.git
+gh repo create my-app --template=https://github.com/vaibhavc2/express-ts.git
 cd my-app
 npm i
 npm run dev
