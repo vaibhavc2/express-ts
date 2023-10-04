@@ -2,7 +2,7 @@
   "name": "rssb-backend",
   "private": true,
   "version": "1.0.0",
-  "description": "This is the backend of the RSSB Registry Application",
+  "description": "This is a template repository to create a project using Express with Typescript.",
   "main": "index.js",
   "type": "module",
   "scripts": {
