@@ -1,5 +1,5 @@
 {
-  "name": "rssb-backend",
+  "name": "express-ts",
   "private": true,
   "version": "1.0.0",
   "description": "This is a template repository to create a project using Express with Typescript.",
