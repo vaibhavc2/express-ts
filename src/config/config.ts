@@ -1,6 +1,7 @@
 import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
+import { Env, EnvStrict } from "../types";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -9,25 +10,11 @@ const __dirname = path.dirname(__filename);
 // Parsing the env file.
 dotenv.config({ path: path.resolve(__dirname, "../../.env.local") });
 
-// Interface to load env variables
+// Interface to load env variables is defined in ../types
 // Note these variables can possibly be undefined
 // as someone could skip these varibales or not setup a .env file at all
 
-interface ENV {
-  NODE_ENV: string | undefined;
-  PORT: number | undefined;
-  // MONGO_URI: string | undefined;
-}
-
-interface Config {
-  NODE_ENV: string;
-  PORT: number;
-  // MONGO_URI: string;
-}
-
-// Loading process.env as ENV interface
-
-const getConfig = (): ENV => {
+const getConfig = (): Env => {
   return {
     NODE_ENV: process.env.NODE_ENV,
     PORT: process.env.PORT ? Number(process.env.PORT) : undefined
@@ -41,13 +28,13 @@ const getConfig = (): ENV => {
 // it as Config which just removes the undefined from our type
 // definition.
 
-const getSanitizedConfig = (config: ENV): Config => {
+const getSanitizedConfig = (config: Env): EnvStrict => {
   for (const [key, value] of Object.entries(config)) {
     if (value === undefined) {
       throw new Error(`Missing key ${key} in config.env`);
     }
   }
-  return config as Config;
+  return config as EnvStrict;
 };
 
 const config = getConfig();
