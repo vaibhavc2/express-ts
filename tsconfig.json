@@ -1,21 +1,32 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["ES2022"],
-    "rootDir": "./src/",
-    "moduleResolution": "Bundler",
-    "typeRoots": ["./node_modules/@types"],
-    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noImplicitAny": true,
+    "removeComments": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*", "src/types/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "files": ["src/types/global.d.ts"],
+  "tsc-alias": {
+    "verbose": false,
+    "resolveFullPaths": true
   },
   "ts-node": {
-    "esm": true,
     "swc": true
   }
 }

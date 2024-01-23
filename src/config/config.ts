@@ -1,44 +1,60 @@
-import path from "path";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import { Env, EnvStrict } from "../types";
+import env from "env-var";
 
-const __filename = fileURLToPath(import.meta.url);
+// dotenv.config({ path: __env });
+dotenv.config();
 
-const __dirname = path.dirname(__filename);
+export const NODE_ENV = env
+  .get("NODE_ENV")
+  .default("development")
+  .asString()
+  .match(/^(development|production)$/)?.[0];
 
-// Parsing the env file.
-dotenv.config({ path: path.resolve(__dirname, "../../.env.local") });
+if (!NODE_ENV) {
+  throw new Error("NODE_ENV must be either 'development' or 'production'.");
+}
 
-// Interface to load env variables is defined in ../types
-// Note these variables can possibly be undefined
-// as someone could skip these varibales or not setup a .env file at all
+export const PORT = env.get("PORT").default(8000).asPortNumber();
 
-const getConfig = (): Env => {
-  return {
-    NODE_ENV: process.env.NODE_ENV,
-    PORT: process.env.PORT ? Number(process.env.PORT) : undefined
-    // MONGO_URI: process.env.MONGO_URI
-  };
-};
+export const MONGO_URI = env.get("MONGO_URI").required().asString();
 
-// Throwing an Error if any field was undefined we don't
-// want our app to run if it can't connect to DB and ensure
-// that these fields are accessible. If all is good return
-// it as Config which just removes the undefined from our type
-// definition.
+export const FRONTEND_URI = env.get("FRONTEND_URI").required().asString();
 
-const getSanitizedConfig = (config: Env): EnvStrict => {
-  for (const [key, value] of Object.entries(config)) {
-    if (value === undefined) {
-      throw new Error(`Missing key ${key} in config.env`);
-    }
-  }
-  return config as EnvStrict;
-};
+export const DB_NAME = env.get("DB_NAME").required().asString();
 
-const config = getConfig();
+export const SECRET_KEY = env.get("SECRET_KEY").required().asString();
 
-const sanitizedConfig = getSanitizedConfig(config);
+export const ACCESS_TOKEN_SECRET = env
+  .get("ACCESS_TOKEN_SECRET")
+  .required()
+  .asString();
 
-export default sanitizedConfig;
+export const ACCESS_TOKEN_EXPIRY = env
+  .get("ACCESS_TOKEN_EXPIRY")
+  .required()
+  .asString();
+
+export const REFRESH_TOKEN_SECRET = env
+  .get("REFRESH_TOKEN_SECRET")
+  .required()
+  .asString();
+
+export const REFRESH_TOKEN_EXPIRY = env
+  .get("REFRESH_TOKEN_EXPIRY")
+  .required()
+  .asString();
+
+export const CLOUDINARY_CLOUD_NAME = env
+  .get("CLOUDINARY_CLOUD_NAME")
+  .required()
+  .asString();
+
+export const CLOUDINARY_API_KEY = env
+  .get("CLOUDINARY_API_KEY")
+  .required()
+  .asString();
+
+export const CLOUDINARY_API_SECRET = env
+  .get("CLOUDINARY_API_SECRET")
+  .required()
+  .asString();
